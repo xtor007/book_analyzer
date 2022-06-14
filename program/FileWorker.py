@@ -1,5 +1,3 @@
-from Book import Book
-
 class FileWorker:
 
     __rootPath = "data/"
@@ -15,4 +13,8 @@ class MainFile(FileWorker):
 
 class BookFile(FileWorker):
     def getBookData(self):
-        return Book(self.fileData.splitlines())
+        return self.fileData.splitlines()
+
+class ControlFile(FileWorker):
+    def getControlWords(self):
+        return self.fileData.splitlines()

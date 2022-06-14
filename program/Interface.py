@@ -1,4 +1,5 @@
 from FileWorker import MainFile, BookFile
+from Book import Book
 
 class Interface:
 
@@ -12,7 +13,7 @@ class Interface:
                 fileWorker = MainFile('books.bp')
                 for bookNameFile in  fileWorker.getFilesNames():
                     bookFile = BookFile(bookNameFile)
-                    book = bookFile.getBookData()
+                    book = Book(bookFile.getBookData())
                 isValueInput = True
             else:
                 print("error")
