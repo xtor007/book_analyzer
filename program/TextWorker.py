@@ -56,13 +56,14 @@ class TextWorker:
                 self.__enemyCount += 1
 
     def getData(self):
-        print(self.__count)
-        print(self.__womanCount)
-        print(self.__manCount)
-        print(self.__twistCount)
-        print(self.__raceCount)
-        print(self.__locationCount)
-        print(self.__frindlyCount)
-        print(self.__loveCount)
-        print(self.__familyCount)
-        print(self. __enemyCount)
+        return {'count': self.__count,
+                'woman_count': self.__womanCount / (self.__womanCount+self.__manCount),
+                'man_count': self.__manCount / (self.__womanCount+self.__manCount),
+                'twist_count': self.__twistCount / self.__count,
+                'race_count': self.__raceCount / self.__count,
+                'location_count': self.__locationCount / self.__count,
+                'friends_count': self.__frindlyCount / (self.__frindlyCount+self.__loveCount+self.__familyCount+self.__enemyCount),
+                'lovers_count': self.__loveCount / (self.__frindlyCount+self.__loveCount+self.__familyCount+self.__enemyCount),
+                'families_count': self.__familyCount / (self.__frindlyCount+self.__loveCount+self.__familyCount+self.__enemyCount),
+                'enemies_count': self.__enemyCount / (self.__frindlyCount+self.__loveCount+self.__familyCount+self.__enemyCount),
+                }

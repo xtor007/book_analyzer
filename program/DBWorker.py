@@ -37,13 +37,14 @@ class DBWorker:
         try:
             with self.__connection.cursor() as cursor:
                 drop_script = "DROP TABLE IF EXISTS Parameters;"
-                create_script = "CREATE TABLE Parameters (   `id` INT NOT NULL AUTO_INCREMENT,   " \
-                                "`name` VARCHAR(150) NOT NULL,   `year` INT NOT NULL,   `pages` INT NOT NULL,   " \
-                                "`rating` INT NOT NULL,   `isRealistic` TINYINT NOT NULL,   `charactersNumber` " \
-                                "INT NOT NULL,   `femaleNumber` INT NOT NULL,   `maleNumber` INT NOT NULL,   " \
-                                "`plotTwists` INT NOT NULL,   `raceNumber` INT NOT NULL,   `friendsNumber` INT " \
-                                "NOT NULL,   `lovesNumber` INT NOT NULL,   `relativesNumber` INT NOT NULL,   " \
-                                "`enemiesNumber` INT NOT NULL,   `locationsNumber` INT NOT NULL,   PRIMARY KEY (" \
+                create_script = "CREATE TABLE Parameters (   `id` DOUBLE NOT NULL AUTO_INCREMENT,   " \
+                                "`name` VARCHAR(150) NOT NULL,   `year` DOUBLE NOT NULL,   `pages` DOUBLE NOT NULL,   " \
+                                "`rating` DOUBLE NOT NULL,   `isRealistic` TINYINT NOT NULL,   `charactersNumber` " \
+                                "DOUBLE NOT NULL,   `femaleNumber` DOUBLE NOT NULL,   `maleNumber` DOUBLE NOT NULL,   " \
+                                "`plotTwists` DOUBLE NOT NULL,   `raceNumber` DOUBLE NOT NULL,   `friendsNumber` " \
+                                "DOUBLE " \
+                                "NOT NULL,   `lovesNumber` DOUBLE NOT NULL,   `relativesNumber` DOUBLE NOT NULL,   " \
+                                "`enemiesNumber` DOUBLE NOT NULL,   `locationsNumber` DOUBLE NOT NULL,   PRIMARY KEY (" \
                                 "`id`)) "
                 cursor.execute(drop_script)
                 cursor.execute(create_script)
@@ -67,5 +68,16 @@ class DBWorker:
                     locations_number)
                 cursor.execute(insert_script)
                 self.__connection.commit()
+        finally:
+            self.__connection.close()
+
+    def fetch_all_data(self):
+        self.connect()
+        try:
+            with self.__connection.cursor() as cursor:
+                select_script = "SELECT * FROM Parameters;"
+                cursor.execute(select_script)
+                rows = cursor.fetchall()
+                return rows
         finally:
             self.__connection.close()

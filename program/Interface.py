@@ -9,7 +9,7 @@ class Interface:
         print("Program start")
         isValueInput = False
         db = DBWorker()
-        db.create_table()
+        db.fetch_all_data()
         while not isValueInput:
             inputValue = input("What do you want to do? 0 - upload data to database\n")
             if inputValue == "0":
