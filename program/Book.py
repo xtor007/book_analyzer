@@ -41,3 +41,11 @@ class Book:
     def __analyzeData(self):
         text = TextWorker(self.text)
         self.analyzeResult = text.getData()
+
+    def getName(self):
+        newName = ""
+        for char in self.name:
+            if char == "'":
+                newName += "\\"
+            newName += char
+        return newName

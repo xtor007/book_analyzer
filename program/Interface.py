@@ -22,7 +22,7 @@ class Interface:
                     book = Book(bookFile.getBookData())
                     data.updateData(book)
                     db.insert_params(
-                        book.name,
+                        book.getName(),
                         book.year,
                         book.pages,
                         book.ratingLiveLib,
