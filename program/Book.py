@@ -10,6 +10,7 @@ class Book:
     ratingLitRes = 0.0
     isReal = False
     count = 0
+    isDark = False
     text = ""
 
     analyzeResult = None
@@ -26,10 +27,14 @@ class Book:
             self.isReal = False
         else:
             self.isReal = True
-        count = int(data[7])
-        otherDataCount = len(data)-8
+        self.count = int(data[7])
+        if data[8] == 0:
+            self.isDark = False
+        else:
+            self.isDark = True
+        otherDataCount = len(data)-9
         for i in range(otherDataCount):
-            self.text += data[i+8]
+            self.text += data[i+9]
         self.__analyzeData()
         print(f'Book {self.name} is finished')
 

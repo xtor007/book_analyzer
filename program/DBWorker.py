@@ -44,7 +44,7 @@ class DBWorker:
                                 "`plotTwists` DOUBLE NOT NULL,   `raceNumber` DOUBLE NOT NULL,   `friendsNumber` " \
                                 "DOUBLE " \
                                 "NOT NULL,   `lovesNumber` DOUBLE NOT NULL,   `relativesNumber` DOUBLE NOT NULL,   " \
-                                "`enemiesNumber` DOUBLE NOT NULL,   `locationsNumber` DOUBLE NOT NULL,   PRIMARY KEY (" \
+                                "`enemiesNumber` DOUBLE NOT NULL,   `locationsNumber` DOUBLE NOT NULL, `countOfRate` INT NOT NULL, `isDark` TINYINT, PRIMARY KEY (" \
                                 "`id`)) "
                 cursor.execute(drop_script)
                 cursor.execute(create_script)
@@ -54,18 +54,18 @@ class DBWorker:
 
     def insert_params(self, name, year, pages, ratingLiveLib, ratingLitRes, is_realistic, characters_number, female_number, male_number,
                       plot_twists, race_number, friends_number, loves_number, relatives_number, enemies_number,
-                      locations_number):
+                      locations_number, rate_number, isDark):
         self.connect()
         try:
             with self.__connection.cursor() as cursor:
                 insert_script = "INSERT INTO `Parameters`(`name`, `year`, `pages`, `ratingLiveLib`, `ratingLitRes`, `isRealistic`, `charactersNumber`, " \
                                 "`femaleNumber`, `maleNumber`, `plotTwists`, `raceNumber`, `friendsNumber`, `lovesNumber`, " \
-                                "`relativesNumber`, `enemiesNumber`, `locationsNumber`) VALUES(" + "'{}', {}, {}, {}, {}, {}, " \
+                                "`relativesNumber`, `enemiesNumber`, `locationsNumber`, `countOfRate`, `isDark`) VALUES(" + "'{}', {}, {}, {}, {}, {}, " \
                                                                                              "{}, {}, {}, {}, {}, {}," \
-                                                                                             " {}, {}, {}, {});".format(
+                                                                                             " {}, {}, {}, {}, {}, {});".format(
                     name, year, pages, ratingLiveLib, ratingLitRes, is_realistic, characters_number, female_number, male_number,
                     plot_twists, race_number, friends_number, loves_number, relatives_number, enemies_number,
-                    locations_number)
+                    locations_number, rate_number, isDark)
                 cursor.execute(insert_script)
                 self.__connection.commit()
         finally:

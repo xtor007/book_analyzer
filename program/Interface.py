@@ -34,7 +34,9 @@ class Interface:
                         book.analyzeResult['lovers_count'],
                         book.analyzeResult['families_count'],
                         book.analyzeResult['enemies_count'],
-                        book.analyzeResult['location_count']
+                        book.analyzeResult['location_count'],
+                        book.count,
+                        book.isDark
                     )
                 isValueInput = True
             elif inputValue == "1":
