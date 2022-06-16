@@ -8,9 +8,9 @@ class Book:
     year = 0
     ratingLiveLib = 0.0
     ratingLitRes = 0.0
-    isReal = False
+    isReal = 0
     count = 0
-    isDark = False
+    isDark = 0
     text = ""
 
     analyzeResult = None
@@ -23,15 +23,9 @@ class Book:
         self.year = int(data[3])
         self.ratingLiveLib = float(data[4])
         self.ratingLitRes = float(data[5])
-        if data[6] == 0:
-            self.isReal = False
-        else:
-            self.isReal = True
+        self.isReal = int(data[6])
         self.count = int(data[7])
-        if data[8] == 0:
-            self.isDark = False
-        else:
-            self.isDark = True
+        self.isDark = int(data[8])
         otherDataCount = len(data)-9
         for i in range(otherDataCount):
             self.text += data[i+9]
