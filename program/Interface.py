@@ -1,6 +1,7 @@
 from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
+from DataWorker import DataWorker
 
 
 class Interface:
@@ -9,6 +10,7 @@ class Interface:
         print("Program start")
         isValueInput = False
         db = DBWorker()
+        data = DataWorker()
         while not isValueInput:
             inputValue = input("What do you want to do?\n 0 - upload data to database\n 1 - train the model \n")
             if inputValue == "0":
@@ -18,6 +20,7 @@ class Interface:
                 for bookNameFile in fileWorker.getFilesNames():
                     bookFile = BookFile(bookNameFile)
                     book = Book(bookFile.getBookData())
+                    data.updateData(book)
                     db.insert_params(
                         book.name,
                         book.year,
@@ -45,3 +48,4 @@ class Interface:
                 isValueInput = True
             else:
                 print("error")
+        data.saveData()
