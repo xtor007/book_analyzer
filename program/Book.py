@@ -12,6 +12,8 @@ class Book:
     count = 0
     text = ""
 
+    analyzeResult = None
+
     def __init__(self, data):
         self.name = data[0]
         print(f'Book {self.name} is on work')
@@ -33,4 +35,4 @@ class Book:
 
     def __analyzeData(self):
         text = TextWorker(self.text)
-        text.getData()
+        self.analyzeResult = text.getData()
