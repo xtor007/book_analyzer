@@ -58,9 +58,9 @@ class DBWorker:
         self.connect()
         try:
             with self.__connection.cursor() as cursor:
-                insert_script = "INSERT DOUBLEO Parameters(name, year, pages, ratingLiveLib, ratingLitRes, isRealistic, charactersNumber, " \
-                                "femaleNumber, maleNumber, plotTwists, raceNumber, friendsNumber, lovesNumber, " \
-                                "relativesNumber, enemiesNumber, locationsNumber) VALUES(" + "{}, {}, {}, {}, {}, {}, " \
+                insert_script = "INSERT INTO `Parameters`(`name`, `year`, `pages`, `ratingLiveLib`, `ratingLitRes`, `isRealistic`, `charactersNumber`, " \
+                                "`femaleNumber`, `maleNumber`, `plotTwists`, `raceNumber`, `friendsNumber`, `lovesNumber`, " \
+                                "`relativesNumber`, `enemiesNumber`, `locationsNumber`) VALUES(" + "'{}', {}, {}, {}, {}, {}, " \
                                                                                              "{}, {}, {}, {}, {}, {}," \
                                                                                              " {}, {}, {}, {});".format(
                     name, year, pages, ratingLiveLib, ratingLitRes, is_realistic, characters_number, female_number, male_number,

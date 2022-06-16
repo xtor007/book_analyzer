@@ -18,7 +18,6 @@ class Interface:
                 for bookNameFile in fileWorker.getFilesNames():
                     bookFile = BookFile(bookNameFile)
                     book = Book(bookFile.getBookData())
-                    """
                     db.insert_params(
                         book.name,
                         book.year,
@@ -36,25 +35,6 @@ class Interface:
                         book.analyzeResult['families_count'],
                         book.analyzeResult['enemies_count'],
                         book.analyzeResult['location_count']
-                    )
-                    """
-                    db.insert_params(
-                        "",
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
                     )
                 isValueInput = True
             else:
