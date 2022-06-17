@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 class LogisticRegresion:
 
@@ -28,6 +29,7 @@ class LogisticRegresion:
 
     def go(self):
         self.checkData()
+        self.overSamplingData()
 
     def checkData(self):
         print("Data checking start")
@@ -53,3 +55,18 @@ class LogisticRegresion:
             avarege1 /= n1
             print(f'Avarage in column {self.names[i]} is {avarege}; \nLight fantazy - {avarege0}\nDark fantazy - {avarege1}')
         self.meaningfulParameters = [0,1,3,4,11,12,13]
+
+    def overSamplingData(self):
+        #вирівнюємо вибірку
+        countOfNewData = 0
+        neededNewCount = int(len(self.data)*(1-2*self.percentOfDark))
+        for example in self.data:
+            if example[self.yColumnIndex] == 1:
+                newExample = example
+                for paramIndex in self.meaningfulParameters:
+                    newExample[paramIndex] *= random.uniform(0.85,1.15)
+                self.data.append(newExample)
+                countOfNewData += 1
+                if countOfNewData >= neededNewCount:
+                    break
+        print(len(self.data))
