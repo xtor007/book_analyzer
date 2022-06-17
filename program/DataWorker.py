@@ -32,8 +32,39 @@ class DataWorker:
             if data[i] < self.minValues[i]:
                 self.minValues[i] = data[i]
 
-    def saveData(self):
+    def loadData(self, dbData):
+        result = []
+        file = MaxMinFile("solution/MaxMin.bp")
+        self.maxValues = file.getMaxArray()
+        self.minValues = file.getMinArray()
+        for data in dbData:
+            array = [
+                data['year'],
+                data['pages'],
+                data['ratingLiveLib'],
+                data['ratingLitRes'],
+                data['isRealistic'],
+                data['charactersNumber'],
+                data['femaleNumber'],
+                data['maleNumber'],
+                data['plotTwists'],
+                data['raceNumber'],
+                data['friendsNumber'],
+                data['lovesNumber'],
+                data['relativesNumber'],
+                data['enemiesNumber'],
+                data['locationsNumber'],
+                data['isDark'],
+                data['countOfRate']
+            ]
+            subResult = []
+            for i in range(len(array)):
+                subResult.append((array[i] - self.minValues[i])/(self.maxValues[i] - self.minValues[i]))
+            result.append(subResult)
+        return result
+
+    def saveMaxMinData(self):
         file = MaxMinFile("solution/MaxMin.bp","w")
         file.writeToFile(self.maxValues)
         file.writeToFile(self.minValues)
-        
+

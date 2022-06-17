@@ -29,7 +29,15 @@ class MaxMinFile(FileWorker):
         self.file.write("\n")
 
     def getMaxArray(self):
-        return self.fileData.splitlines()[0].split(" ")
+        result = []
+        for i in self.fileData.splitlines()[0].split(" "):
+            if i != '':
+                result.append(float(i))
+        return result
 
     def getMinArray(self):
-        return self.fileData.splitlines()[1].split(" ")
+        result = []
+        for i in self.fileData.splitlines()[1].split(" "):
+            if i != '':
+                result.append(float(i))
+        return result
