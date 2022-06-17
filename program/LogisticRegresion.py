@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import math
 
 class LogisticRegresion:
 
@@ -20,7 +21,13 @@ class LogisticRegresion:
     yColumnIndex = 15
     meaningfulParameters = []
 
+    alpha = 0.005
+    parametrs = []
+    oldParametrs = []
+
     percentOfDark = 0
+
+    isFinish = False
 
     def __init__(self, data):
         self.data = data
@@ -30,6 +37,9 @@ class LogisticRegresion:
     def go(self):
         self.checkData()
         self.overSamplingData()
+        self.parametrs = [1]*(len(self.meaningfulParameters)+1)
+        self.trainData()
+        print(self.parametrs)
 
     def checkData(self):
         print("Data checking start")
@@ -69,4 +79,50 @@ class LogisticRegresion:
                 countOfNewData += 1
                 if countOfNewData >= neededNewCount:
                     break
-        print(len(self.data))
+        print("Data is ready to analyze")
+
+    def costFunction(self):
+        result = 0
+        for example in self.data:
+            p = self.expon(example)
+            if p == 0 or p == 1:
+                self.isFinish = True
+            else:
+                result += example[self.yColumnIndex]*math.log(p)
+                result += (1-example[self.yColumnIndex])*math.log(1-p)
+        return -result/len(self.data)
+
+    def expon(self, example):
+        z = 0
+        for i in range(len(self.oldParametrs)):
+            if i == len(self.oldParametrs) - 1:
+                z += self.oldParametrs[i]
+            else:
+                z += self.oldParametrs[i] * example[self.meaningfulParameters[i]]
+        return(1 / (1 + (math.e ** (-z))))
+
+    def trainData(self):
+        print("Training is start")
+        self.isFinish = False
+        count = 0
+        self.oldParametrs = self.parametrs
+        prevValue = self.costFunction()
+        while not self.isFinish:
+            self.oldParametrs = self.parametrs
+            if count % 100 == 0:
+                print(count)
+                print(self.parametrs)
+            count += 1
+            for j in range(len(self.parametrs)):
+                sum = 0
+                for i in range(len(self.data)):
+                    subsum = self.expon(self.data[j])-self.data[i][self.yColumnIndex]
+                    mn = 1
+                    if j != len(self.parametrs)-1:
+                        mn = self.data[i][self.meaningfulParameters[j]]
+                    sum += subsum*mn
+                sum /= len(self.data)
+                self.parametrs[j] -= sum*self.alpha
+            nowValue = self.costFunction()
+            if abs(nowValue-prevValue) < 0.00001:
+                self.isFinish = True
