@@ -2,6 +2,7 @@ from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
 from DataWorker import DataWorker
+from LogisticRegresion import LogisticRegresion
 
 
 class Interface:
@@ -45,7 +46,8 @@ class Interface:
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
-                print(normalizedData)
+                logReg = LogisticRegresion(normalizedData)
+                logReg.go()
                 isValueInput = True
             else:
                 print("error")
