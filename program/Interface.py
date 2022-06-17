@@ -12,7 +12,7 @@ class Interface:
         db = DBWorker()
         data = DataWorker()
         while not isValueInput:
-            inputValue = input("What do you want to do?\n 0 - upload data to database\n 1 - train the model \n")
+            inputValue = input("What do you want to do?\n 0 - upload data to database\n 1 - train the model \n 2 - predict for my book")
             if inputValue == "0":
                 db.create_table()
                 print("Uploading data...")
@@ -43,8 +43,8 @@ class Interface:
                     )
                 isValueInput = True
             elif inputValue == "1":
-                data = db.fetch_all_data()
-                print(data)
+                loadedData = db.fetch_all_data()
+                print(loadedData)
                 isValueInput = True
             else:
                 print("error")

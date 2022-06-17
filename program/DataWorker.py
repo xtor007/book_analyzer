@@ -1,4 +1,5 @@
 import sys
+from FileWorker import MaxMinFile
 
 class DataWorker:
 
@@ -22,8 +23,8 @@ class DataWorker:
             book.analyzeResult['families_count'],
             book.analyzeResult['enemies_count'],
             book.analyzeResult['location_count'],
-            book.count,
-            book.isDark
+            book.isDark,
+            book.count
         ]
         for i in range(len(data)):
             if data[i] > self.maxValues[i]:
@@ -32,5 +33,7 @@ class DataWorker:
                 self.minValues[i] = data[i]
 
     def saveData(self):
-        print(self.minValues)
-        print(self.maxValues)
+        file = MaxMinFile("solution/MaxMin.bp","w")
+        file.writeToFile(self.maxValues)
+        file.writeToFile(self.minValues)
+        
