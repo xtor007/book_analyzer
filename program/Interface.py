@@ -2,6 +2,7 @@ from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
 from DataWorker import DataWorker
+from LinearRegression import LinearRegression
 
 
 class Interface:
@@ -45,7 +46,9 @@ class Interface:
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
-                print(normalizedData)
+                logReg = LinearRegression(normalizedData)
+                matrix = logReg.findEquations()
+                logReg.solveMtxGauss(matrix, len(logReg.names))
                 isValueInput = True
             else:
                 print("error")
