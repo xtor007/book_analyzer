@@ -2,6 +2,8 @@ from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
 from DataWorker import DataWorker
+from LogisticRegresion import LogisticRegresion
+from TestWorkerLogistic import TestWorkerLogistic
 
 
 class Interface:
@@ -42,11 +44,44 @@ class Interface:
                         book.isDark
                     )
                 isValueInput = True
+                data.saveMaxMinData()
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
-                print(normalizedData)
+                logReg = LogisticRegresion(normalizedData)
+                logReg.go()
+                logReg.saveResult()
+                isValueInput = True
+            elif inputValue == "2":
+                print("Uploading test data...")
+                fileWorker = MainFile('test.bp')
+                testData = []
+                testNames = []
+                testResults = []
+                for bookNameFile in fileWorker.getFilesNames():
+                    bookFile = BookFile(bookNameFile)
+                    book = Book(bookFile.getBookData())
+                    testNames.append(book.name)
+                    testResults.append(book.isDark)
+                    testData.append([
+                        book.year,
+                        book.pages,
+                        book.ratingLiveLib,
+                        book.ratingLitRes,
+                        book.isReal,
+                        book.analyzeResult['count'],
+                        book.analyzeResult['woman_count'],
+                        book.analyzeResult['man_count'],
+                        book.analyzeResult['twist_count'],
+                        book.analyzeResult['race_count'],
+                        book.analyzeResult['friends_count'],
+                        book.analyzeResult['lovers_count'],
+                        book.analyzeResult['families_count'],
+                        book.analyzeResult['enemies_count'],
+                        book.analyzeResult['location_count'],
+                    ])
+                logTest = TestWorkerLogistic(testData,testNames,testResults)
+                logTest.goTesting()
                 isValueInput = True
             else:
                 print("error")
-        data.saveMaxMinData()
