@@ -4,6 +4,7 @@ from Book import Book
 from DataWorker import DataWorker
 from LogisticRegresion import LogisticRegresion
 from TestWorkerLogistic import TestWorkerLogistic
+from DecisionTree import DecisionTree
 
 
 class Interface:
@@ -48,9 +49,13 @@ class Interface:
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
+                '''
                 logReg = LogisticRegresion(normalizedData)
                 logReg.go()
                 logReg.saveResult()
+                '''
+                decisionTree = DecisionTree(normalizedData)
+                decisionTree.saveData()
                 isValueInput = True
             elif inputValue == "2":
                 print("Uploading test data...")

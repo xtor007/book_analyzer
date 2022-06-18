@@ -54,3 +54,14 @@ class ParamFile(FileWorker):
             if param != '':
                 result.append(float(param))
         return result
+
+class CellFile(FileWorker):
+
+    def writeCell(self, parametr, avarage):
+        self.file.write(f'0\n{parametr}\n{avarage}')
+
+    def writeLastCell(self, predict):
+        self.file.write(f'1\n{predict}')
+
+    def getCellValues(self):
+        return self.fileData.splitlines()

@@ -1,4 +1,4 @@
-from FileWorker import MaxMinFile, ParamFile
+from FileWorker import MaxMinFile, ParamFile, CellFile
 import math
 
 class TestWorkerLogistic:
@@ -21,7 +21,36 @@ class TestWorkerLogistic:
                 data[i][j] = (data[i][j] - minValues[j])/(maxValues[j] - minValues[j])
 
     def goTesting(self):
-        self.testLogisticReg()
+        #self.testLogisticReg()
+        self.testTree()
+
+    def testTree(self):
+        resultNames = ["Light", "Dark"]
+        print("----------------------------------")
+        print("Start testing tree")
+        rightAnswers = 0
+        path = "solution/tree/"
+        for i in range(len(self.data)):
+            fileName = "root"
+            predict = 0
+            while True:
+                file = CellFile(path+fileName+".bp")
+                if fileName == "root":
+                    fileName = ""
+                cellData = file.getCellValues()
+                if cellData[0] == "1":
+                    predict = int(cellData[1])
+                    break
+                parametr = int(cellData[1])
+                value = float(cellData[2])
+                if self.data[i][parametr] > value:
+                    fileName += "r"
+                else:
+                    fileName += "l"
+            print(f'{self.names[i]} is {resultNames[self.results[i]]}; Prediction is {resultNames[predict]}')
+            if self.results[i] == predict:
+                rightAnswers += 1
+        print(f'Correctness of predictions - {rightAnswers / len(self.data)}')
 
     def testLogisticReg(self):
         resultNames = ["Light", "Dark"]
