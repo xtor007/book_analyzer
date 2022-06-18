@@ -1,3 +1,5 @@
+from FileWorker import CellFile
+
 class DecisionCell:
 
     meaningfulParameters = [0, 1, 3, 4, 11, 12, 13]
@@ -45,3 +47,16 @@ class DecisionCell:
                 newIndex = self.meaningfulParameters[indexInParams+1]
             self.leftCell = DecisionCell(leftData,newIndex)
             self.rightCell = DecisionCell(rightData,newIndex)
+
+    def saveData(self, name):
+        file = CellFile("solution/tree/"+name+".bp","w")
+        if self.isLast:
+            file.writeLastCell(self.prediction)
+            return
+        else:
+            file.writeCell(self.parametrIndex,self.avarageParam)
+        newName = name
+        if newName == "root":
+            newName = ""
+        self.leftCell.saveData(newName+"l")
+        self.rightCell.saveData(newName+"r")

@@ -55,6 +55,7 @@ class Interface:
                 logReg.saveResult()
                 '''
                 decisionTree = DecisionTree(normalizedData)
+                decisionTree.saveData()
                 isValueInput = True
             elif inputValue == "2":
                 print("Uploading test data...")

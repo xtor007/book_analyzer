@@ -14,7 +14,7 @@ class DecisionTree:
         print("Decision tree start")
         self.data = data
         self.overSamplingData()
-        root = DecisionCell(self.data,0)
+        self.root = DecisionCell(self.data,0)
 
     def overSamplingData(self):
         #вирівнюємо вибірку
@@ -30,3 +30,7 @@ class DecisionTree:
                 if countOfNewData >= neededNewCount:
                     break
         print("Data is ready to analyze")
+
+    def saveData(self):
+        print("Saving...")
+        self.root.saveData("root")
