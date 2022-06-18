@@ -41,3 +41,15 @@ class MaxMinFile(FileWorker):
             if i != '':
                 result.append(float(i))
         return result
+
+class ParamFile(FileWorker):
+
+    def writeToFile(self, param):
+        for p in param:
+            self.file.write(f'{p} ')
+
+    def getParams(self):
+        result = []
+        for param in self.fileData.split(" "):
+            result.append(float(param))
+        return result

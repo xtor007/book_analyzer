@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import math
+from FileWorker import ParamFile
 
 class LogisticRegresion:
 
@@ -40,6 +41,7 @@ class LogisticRegresion:
         self.parametrs = [1]*(len(self.meaningfulParameters)+1)
         self.trainData()
         print(self.parametrs)
+        print("Training is finish")
 
     def checkData(self):
         print("Data checking start")
@@ -126,3 +128,17 @@ class LogisticRegresion:
             nowValue = self.costFunction()
             if abs(nowValue-prevValue) < 0.00001:
                 self.isFinish = True
+        self.oldParametrs = self.parametrs
+
+    def saveResult(self):
+        file = ParamFile("solution/LogResParams.bp","w")
+        j = 0
+        resParams = []
+        for i in range(len(self.names)-2):
+            if i in self.meaningfulParameters:
+                resParams.append(self.parametrs[j])
+                j += 1
+            else:
+                resParams.append(0)
+        resParams.append(self.parametrs[j])
+        file.writeToFile(resParams)

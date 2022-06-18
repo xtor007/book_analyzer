@@ -48,6 +48,10 @@ class Interface:
                 normalizedData = data.loadData(loadedData)
                 logReg = LogisticRegresion(normalizedData)
                 logReg.go()
+                logReg.saveResult()
+                isValueInput = True
+            elif inputValue == "2":
+                
                 isValueInput = True
             else:
                 print("error")
