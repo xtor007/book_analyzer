@@ -51,5 +51,6 @@ class ParamFile(FileWorker):
     def getParams(self):
         result = []
         for param in self.fileData.split(" "):
-            result.append(float(param))
+            if param != '':
+                result.append(float(param))
         return result
