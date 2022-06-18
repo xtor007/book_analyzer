@@ -51,7 +51,7 @@ class Interface:
                 logReg.saveResult()
                 isValueInput = True
             elif inputValue == "2":
-                
+
                 isValueInput = True
             else:
                 print("error")
