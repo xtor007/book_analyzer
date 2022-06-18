@@ -2,6 +2,7 @@ from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
 from DataWorker import DataWorker
+from knn import NearestNeighbors
 
 
 class Interface:
@@ -46,6 +47,8 @@ class Interface:
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
                 print(normalizedData)
+                knn = NearestNeighbors(normalizedData)
+                knn.start(normalizedData)
                 isValueInput = True
             else:
                 print("error")
