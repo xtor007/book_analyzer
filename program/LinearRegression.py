@@ -21,6 +21,8 @@ class LinearRegression:
 
     yColumnIndex = 16
 
+    coefficients = []
+
     percentageScore = 0
 
     def __init__(self, data):
@@ -29,8 +31,9 @@ class LinearRegression:
         print("Linear regression starts")
 
     def start(self):
-        self.findEquations()
-        print(self.parametrs)
+        matrix = self.findEquations()
+        self.coefficients = self.solveMtxGauss(matrix, len(self.names))
+        print(self.coefficients)
 
     def findEquations(self):
         matrix = []
@@ -87,10 +90,24 @@ class LinearRegression:
         print('\nRequired solution is: ')
         for i in range(unknowns):
             print(f'X{i} = {x[i]}')
+        return x
 
-    def addTwoRows(self, row1, row2):
-        resultRow = []
-        if len(row1) == len(row2):
-            for i in (range(0, len(row1))):
-                resultRow.append(row1[i]+row2[i])
-        return  resultRow
+    def evaluate(self, selection):
+        predictedSet = []
+        if len(self.coefficients) > 0:
+            for i in range(len(selection)):
+                predictedY = 0
+                print(f'Y =', end=" ")
+                for paramNum in range(len(selection[i]) - 1):
+                    print(f'{selection[i][paramNum]} * {self.coefficients[paramNum]} ({paramNum}) +', end=" ")
+                    predictedY += selection[i][paramNum] * self.coefficients[paramNum]
+                predictedY += self.coefficients[len(self.coefficients) - 1]
+                predictedSet.append(predictedY)
+                print("")
+        return predictedSet
+
+    def compare(self, basedSet, predictedScore):
+        if len(basedSet) == len(predictedScore):
+            for i in range(len(basedSet)):
+                convergence = 100 * (1 - math.fabs(basedSet[i][self.yColumnIndex] - predictedScore[i]))
+                print(f'Based set: {basedSet[i]}; Predicted score: {predictedScore[i]} | Convergence = {convergence}')
