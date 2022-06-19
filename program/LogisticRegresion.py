@@ -43,16 +43,46 @@ class LogisticRegresion:
         print(self.parametrs)
         print("Training is finish")
 
+    def checkMulticol(self):
+        avaragesValues = [0]*len(self.meaningfulParameters)
+        for example in self.data:
+            for i in range(len(self.meaningfulParameters)):
+                avaragesValues[i] += example[self.meaningfulParameters[i]]
+        newData = self.data
+        for i in range(len(avaragesValues)):
+            avaragesValues[i] /= len(self.data)
+        for i in range(len(newData)):
+            for j in range(len(self.meaningfulParameters)):
+                newData[i][self.meaningfulParameters[j]] -= avaragesValues[j]
+        corTable = [None]*len(avaragesValues)
+        for i in range(len(corTable)):
+            corTable[i] = [0]*len(avaragesValues)
+            for j in range(len(corTable[0])):
+                xy = 0
+                xx = 0
+                yy = 0
+                for example in newData:
+                    xy += example[self.meaningfulParameters[i]]*example[self.meaningfulParameters[j]]
+                    xx += example[self.meaningfulParameters[i]]**2
+                    yy += example[self.meaningfulParameters[j]]**2
+                corTable[i][j] = xy / ((xx*yy)**0.5)
+        print(f'CorTable is {corTable}')
+        self.meaningfulParameters = [0, 1, 3, 4, 11, 12]
+
     def checkData(self):
         print("Data checking start")
-        # y - це колонка isDark (15), дослідимо параметри на значемість
+        # y - це колонка isDark (15), дослідимо параметри на значемість та мультиколінеарність
         for i in range(len(self.names)-1):
             avarege = 0
             avarege0 = 0
             n0 = 0
             avarege1 = 0
             n1 = 0
+            x = []
+            y = []
             for example in self.data:
+                x.append(example[i])
+                y.append(example[self.yColumnIndex])
                 avarege += example[i]
                 if example[self.yColumnIndex] == 0:
                     avarege0 += example[i]
@@ -60,13 +90,17 @@ class LogisticRegresion:
                 else:
                     avarege1 += example[i]
                     n1 += 1
+            plt.scatter(x,y)
+            plt.show()
             avarege /= len(self.data)
+
             if i == self.yColumnIndex:
                 self.percentOfDark = avarege
             avarege0 /= n0
             avarege1 /= n1
             print(f'Avarage in column {self.names[i]} is {avarege}; \nLight fantazy - {avarege0}\nDark fantazy - {avarege1}')
         self.meaningfulParameters = [0,1,3,4,11,12,13]
+        self.checkMulticol()
 
     def overSamplingData(self):
         #вирівнюємо вибірку

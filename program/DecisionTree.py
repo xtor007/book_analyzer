@@ -6,7 +6,7 @@ class DecisionTree:
     root = None
     data = []
     yColumnIndex = 15
-    meaningfulParameters = [0, 1, 3, 4, 11, 12, 13]
+    meaningfulParameters = [0, 1, 3, 4, 11, 12]
     percentOfDark = 0.31
 
     def __init__(self, data):

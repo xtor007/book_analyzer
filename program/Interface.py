@@ -49,11 +49,9 @@ class Interface:
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
-                '''
                 logReg = LogisticRegresion(normalizedData)
                 logReg.go()
                 logReg.saveResult()
-                '''
                 decisionTree = DecisionTree(normalizedData)
                 decisionTree.saveData()
                 isValueInput = True

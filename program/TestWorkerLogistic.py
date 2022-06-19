@@ -21,7 +21,7 @@ class TestWorkerLogistic:
                 data[i][j] = (data[i][j] - minValues[j])/(maxValues[j] - minValues[j])
 
     def goTesting(self):
-        #self.testLogisticReg()
+        self.testLogisticReg()
         self.testTree()
 
     def testTree(self):

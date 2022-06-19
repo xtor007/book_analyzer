@@ -2,7 +2,7 @@ from FileWorker import CellFile
 
 class DecisionCell:
 
-    meaningfulParameters = [0, 1, 3, 4, 11, 12, 13]
+    meaningfulParameters = [0, 1, 3, 4, 11, 12]
     yColumnIndex = 15
 
     parametrIndex = 0
