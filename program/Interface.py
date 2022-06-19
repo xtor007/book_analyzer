@@ -85,6 +85,7 @@ class Interface:
                     ])
                 logTest = TestWorkerLogistic(testData,testNames,testResults)
                 logTest.goTesting()
+                #logTest.printTree()
                 isValueInput = True
             else:
                 print("error")

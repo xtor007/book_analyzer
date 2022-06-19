@@ -7,6 +7,18 @@ class TestWorkerLogistic:
     names = []
     results = []
 
+    paramNames = [
+        "year", "pages",
+        "ratingLiveLib", "ratingLitRes",
+        "isRealistic",
+        "characters", "female", "male",
+        "twists", "race",
+        "friends", "loves", "family", "enemy",
+        "locations",
+        "isDark",
+        "countOfRate"
+    ]
+
     def __init__(self, data, names, results):
         self.data = data
         self.names = names
@@ -19,6 +31,28 @@ class TestWorkerLogistic:
         for i in range(len(self.data)):
             for j in range(len(self.data[i])):
                 data[i][j] = (data[i][j] - minValues[j])/(maxValues[j] - minValues[j])
+
+    def printCell(self, fileName):
+        path = "solution/tree/"
+        file = CellFile(path + fileName + ".bp")
+        cellData = file.getCellValues()
+        if cellData[0] == "1":
+            print(f'res - {cellData[1]}')
+            return
+        if fileName == "root":
+            self.printCell("l")
+        else:
+            self.printCell(fileName+"l")
+        parametr = int(cellData[1])
+        value = float(cellData[2])
+        print(f'{self.paramNames[parametr]} - {value}')
+        if fileName == "root":
+            self.printCell("r")
+        else:
+            self.printCell(fileName+"r")
+
+    def printTree(self):
+        self.printCell("root")
 
     def goTesting(self):
         self.testLogisticReg()
