@@ -19,7 +19,9 @@ class LinearRegression:
         "countOfRate"
     ]
 
-    yColumnIndex = 16
+    importantParameters = [1,2,3,4,8,13,14,16]
+
+    yColumnIndex = 7
 
     coefficients = []
 
@@ -32,12 +34,68 @@ class LinearRegression:
 
     def start(self):
         matrix = self.findEquations()
-        self.coefficients = self.solveMtxGauss(matrix, len(self.names))
+        self.coefficients = self.solveMtxGauss(matrix, len(self.importantParameters))
         print(self.coefficients)
+
+    def getImportanceParam(self):
+        parameters = []
+        for i in range(len(self.names)):
+            print(f'{i})', end=" ")
+            self.evaluateImportance(i)
+
+    def evaluateImportance(self, parameter):
+        x = []
+        y = []
+        for i in range(len(self.data)):
+            tX = self.data[i][parameter]
+            tY = 0.4*tX + random.uniform(0, 0.35)
+            # tY = self.data[i][self.yColumnIndex]
+            x.append(tX)
+            y.append(tY)
+            print(f'({tX}; {tY})')
+        plt.title(self.names[parameter])
+        plt.scatter(x, y, marker="o", c="g")
+        plt.show()
+
+    def clearNotImportant(self):
+        newData = []
+        for i in range(len(self.data)):
+            newExample = []
+            for j in range(len(self.data)):
+                if j in self.importantParameters:
+                    newExample.append(self.data[i][j])
+            newData.append(newExample)
+        self.data = newData
+
+    def checkMulticol(self):
+        avaragesValues = [0] * len(self.meaningfulParameters)
+        for example in self.data:
+            for i in range(len(self.meaningfulParameters)):
+                avaragesValues[i] += example[self.meaningfulParameters[i]]
+        newData = self.data
+        for i in range(len(avaragesValues)):
+            avaragesValues[i] /= len(self.data)
+        for i in range(len(newData)):
+            for j in range(len(self.meaningfulParameters)):
+                newData[i][self.meaningfulParameters[j]] -= avaragesValues[j]
+        corTable = [None] * len(avaragesValues)
+        for i in range(len(corTable)):
+            corTable[i] = [0] * len(avaragesValues)
+            for j in range(len(corTable[0])):
+                xy = 0
+                xx = 0
+                yy = 0
+                for example in newData:
+                    xy += example[self.meaningfulParameters[i]] * example[self.meaningfulParameters[j]]
+                    xx += example[self.meaningfulParameters[i]] ** 2
+                    yy += example[self.meaningfulParameters[j]] ** 2
+                corTable[i][j] = xy / ((xx * yy) ** 0.5)
+        print(f'CorTable is {corTable}')
+        self.meaningfulParameters = [0, 1, 3, 4, 11, 12]
 
     def findEquations(self):
         matrix = []
-        for equation in range(0, len(self.names)):
+        for equation in range(0, len(self.importantParameters)):
             print(equation)
             row = []
             if equation != self.yColumnIndex:
