@@ -10,7 +10,7 @@ class Interface:
     def go(self):
         print("Program start")
         isValueInput = False
-        db = DBWorker()
+        db = DBWorker(password="hta51234")
         data = DataWorker()
         while not isValueInput:
             inputValue = input("What do you want to do?\n 0 - upload data to database\n 1 - train the model \n 2 - predict for my book\n")

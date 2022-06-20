@@ -19,7 +19,9 @@ class NearestNeighbors:
         "countOfRate"
     ]
 
-    yColumnIndex = 16
+    importantParameters = [1, 2, 3, 4, 8, 13, 14, 16]
+
+    yColumnIndex = 7
 
     k = 5
 
@@ -27,6 +29,7 @@ class NearestNeighbors:
 
     def __init__(self, data):
         self.data = data
+        self.clearNotImportant()
         print("--------------------------------------------")
         print("K-Nearest Neighbors starts")
 
@@ -37,7 +40,17 @@ class NearestNeighbors:
             print(f'Pack: {pack}')
             evaluations.append(self.findNeighbors(pack))
         for i in range(len(evaluations)):
-            print(f'For {selection[i]} is predicted rate up to {evaluations[i]} | Convergence = {100 * (1 - math.fabs(selection[i][self.yColumnIndex] - evaluations[i]))}')
+            print(f'Real Y: {selection[i][self.yColumnIndex]} | Theoretical Y: {evaluations[i]} | Convergence = {100 * (1 - math.fabs(selection[i][self.yColumnIndex] - evaluations[i]))}')
+
+    def clearNotImportant(self):
+        newData = []
+        for i in range(len(self.data)):
+            newExample = []
+            for j in range(len(self.data)):
+                if j in self.importantParameters:
+                    newExample.append(self.data[i][j])
+            newData.append(newExample)
+        self.data = newData
 
     def findNeighbors(self, pack):
         distances = []
