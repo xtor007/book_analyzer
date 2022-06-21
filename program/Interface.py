@@ -2,9 +2,13 @@ from DBWorker import DBWorker
 from FileWorker import MainFile, BookFile
 from Book import Book
 from DataWorker import DataWorker
+<<<<<<< HEAD
 from LogisticRegresion import LogisticRegresion
 from TestWorkerLogistic import TestWorkerLogistic
 from DecisionTree import DecisionTree
+=======
+from knn import NearestNeighbors
+>>>>>>> KNN
 
 
 class Interface:
@@ -12,7 +16,7 @@ class Interface:
     def go(self):
         print("Program start")
         isValueInput = False
-        db = DBWorker()
+        db = DBWorker(password="hta51234")
         data = DataWorker()
         while not isValueInput:
             inputValue = input("What do you want to do?\n 0 - upload data to database\n 1 - train the model \n 2 - predict for my book\n")
@@ -49,6 +53,7 @@ class Interface:
             elif inputValue == "1":
                 loadedData = db.fetch_all_data()
                 normalizedData = data.loadData(loadedData)
+<<<<<<< HEAD
                 logReg = LogisticRegresion(normalizedData)
                 logReg.go()
                 logReg.saveResult()
@@ -86,6 +91,11 @@ class Interface:
                 logTest = TestWorkerLogistic(testData,testNames,testResults)
                 logTest.goTesting()
                 #logTest.printTree()
+=======
+                print(normalizedData)
+                knn = NearestNeighbors(normalizedData)
+                knn.start(normalizedData)
+>>>>>>> KNN
                 isValueInput = True
             else:
                 print("error")
