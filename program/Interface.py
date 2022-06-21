@@ -9,6 +9,7 @@ from DecisionTree import DecisionTree
 =======
 from knn import NearestNeighbors
 >>>>>>> KNN
+from LinearRegression import LinearRegression
 
 
 class Interface:
@@ -96,6 +97,16 @@ class Interface:
                 knn = NearestNeighbors(normalizedData)
                 knn.start(normalizedData)
 >>>>>>> KNN
+                logReg = LinearRegression(normalizedData)
+                logReg.clearNotImportant()
+                logReg.start()
+                isValueInput = True
+            elif inputValue == '2':
+                loadedData = db.fetch_all_data()
+                normalizedData = data.loadData(loadedData)
+                logReg = LinearRegression(normalizedData)
+                logReg.start()
+                logReg.compare(normalizedData, logReg.evaluate(normalizedData))
                 isValueInput = True
             else:
                 print("error")
