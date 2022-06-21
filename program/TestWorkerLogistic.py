@@ -30,8 +30,6 @@ class TestWorkerLogistic:
         maxMinFile = MaxMinFile("solution/MaxMin.bp")
         maxValues = maxMinFile.getMaxArray()
         minValues = maxMinFile.getMinArray()
-        print(maxValues)
-        print(minValues)
         for i in range(len(self.data)):
             for j in range(len(self.data[i])):
                 data[i][j] = (data[i][j] - minValues[j])/(maxValues[j] - minValues[j])

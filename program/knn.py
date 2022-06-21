@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 import math
 import sys
+from FileWorker import MaxMinFile
 
 
 class NearestNeighbors:
@@ -34,13 +35,26 @@ class NearestNeighbors:
         print("K-Nearest Neighbors starts")
 
     def start(self, selection):
-        print(selection)
+        maxMinFile = MaxMinFile("solution/MaxMin.bp")
+        maxValues = maxMinFile.getMaxArray()
+        minValues = maxMinFile.getMinArray()
+        for i in range(len(selection)):
+            for j in range(len(selection[i])):
+                selection[i][j] = (selection[i][j] - minValues[j]) / (maxValues[j] - minValues[j])
         evaluations = []
         for pack in selection:
-            print(f'Pack: {pack}')
             evaluations.append(self.findNeighbors(pack))
+        rss = 0
+        tss = 0
+        avarageY = 0
+        for i in range(len(self.data)):
+            avarageY += self.data[i][self.yColumnIndex]
+        avarageY /= len(self.data)
         for i in range(len(evaluations)):
             print(f'Real Y: {selection[i][self.yColumnIndex]} | Theoretical Y: {evaluations[i]} | Convergence = {100 * (1 - math.fabs(selection[i][self.yColumnIndex] - evaluations[i]))}')
+            rss += (self.data[i][self.yColumnIndex] - avarageY) ** 2
+            tss += (self.data[i][self.yColumnIndex] - evaluations[i]) ** 2
+        print(f'RSS = {rss}, TSS = {tss}, R2 = {1 - rss / tss}')
 
     def clearNotImportant(self):
         newData = []

@@ -160,12 +160,12 @@ class LogisticRegresion:
                 sum /= len(self.data)
                 self.parametrs[j] -= sum*self.alpha
             nowValue = self.costFunction()
-            if abs(nowValue-prevValue) < 0.00001:
+            if nowValue-prevValue > 0:
                 self.isFinish = True
         self.oldParametrs = self.parametrs
 
     def saveResult(self):
-        file = ParamFile("solution/LogResParams.bp","w")
+        file = ParamFile("solution/LogResParamss.bp","w")
         j = 0
         resParams = []
         for i in range(len(self.names)-2):

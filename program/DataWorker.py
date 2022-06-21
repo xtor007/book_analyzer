@@ -67,4 +67,3 @@ class DataWorker:
         file = MaxMinFile("solution/MaxMin.bp","w")
         file.writeToFile(self.maxValues)
         file.writeToFile(self.minValues)
-

@@ -49,7 +49,7 @@ class DecisionCell:
             self.rightCell = DecisionCell(rightData,newIndex)
 
     def saveData(self, name):
-        file = CellFile("solution/tree/"+name+".bp","w")
+        file = CellFile("solution/tree1/"+name+".bp","w")
         if self.isLast:
             file.writeLastCell(self.prediction)
             return

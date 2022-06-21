@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 import math
 import sys
+from FileWorker import ParamFile
 
 class LinearRegression:
 
@@ -19,7 +20,7 @@ class LinearRegression:
         "countOfRate"
     ]
 
-    importantParameters = [1,2,3,4,8,13,14,16]
+    importantParameters = [1, 2, 3, 4, 8, 13, 14, 16]
 
     yColumnIndex = 7
 
@@ -35,7 +36,28 @@ class LinearRegression:
     def start(self):
         matrix = self.findEquations()
         self.coefficients = self.solveMtxGauss(matrix, len(self.importantParameters))
-        print(self.coefficients)
+        self.saveParametrs()
+
+    def saveParametrs(self):
+        file = ParamFile("solution/linRegParams.bp","w")
+        j = 0
+        resParams = []
+        for i in range(len(self.names) - 2):
+            if i in self.importantParameters:
+                resParams.append(self.coefficients[j])
+                j += 1
+            else:
+                resParams.append(0)
+        resParams.append(self.coefficients[j])
+        file.writeToFile(resParams)
+
+    def getParameters(self):
+        file = ParamFile("solution/linRegParams.bp")
+        coefIn = file.getParams()
+        for k in coefIn:
+            if k != 0:
+                self.coefficients.append(k)
+
 
     def getImportanceParam(self):
         parameters = []
@@ -68,16 +90,16 @@ class LinearRegression:
         self.data = newData
 
     def checkMulticol(self):
-        avaragesValues = [0] * len(self.meaningfulParameters)
+        avaragesValues = [0] * len(self.importantParameters)
         for example in self.data:
-            for i in range(len(self.meaningfulParameters)):
-                avaragesValues[i] += example[self.meaningfulParameters[i]]
+            for i in range(len(self.importantParameters)):
+                avaragesValues[i] += example[self.importantParameters[i]]
         newData = self.data
         for i in range(len(avaragesValues)):
             avaragesValues[i] /= len(self.data)
         for i in range(len(newData)):
-            for j in range(len(self.meaningfulParameters)):
-                newData[i][self.meaningfulParameters[j]] -= avaragesValues[j]
+            for j in range(len(self.importantParameters)):
+                newData[i][self.importantParameters[j]] -= avaragesValues[j]
         corTable = [None] * len(avaragesValues)
         for i in range(len(corTable)):
             corTable[i] = [0] * len(avaragesValues)
@@ -86,12 +108,12 @@ class LinearRegression:
                 xx = 0
                 yy = 0
                 for example in newData:
-                    xy += example[self.meaningfulParameters[i]] * example[self.meaningfulParameters[j]]
-                    xx += example[self.meaningfulParameters[i]] ** 2
-                    yy += example[self.meaningfulParameters[j]] ** 2
+                    xy += example[self.importantParameters[i]] * example[self.importantParameters[j]]
+                    xx += example[self.importantParameters[i]] ** 2
+                    yy += example[self.importantParameters[j]] ** 2
                 corTable[i][j] = xy / ((xx * yy) ** 0.5)
         print(f'CorTable is {corTable}')
-        self.meaningfulParameters = [0, 1, 3, 4, 11, 12]
+        self.importantParameters = [0, 1, 3, 4, 11, 12]
 
     def findEquations(self):
         matrix = []
@@ -156,7 +178,7 @@ class LinearRegression:
             for i in range(len(selection)):
                 predictedY = 0
                 print(f'Y =', end=" ")
-                for paramNum in range(len(selection[i]) - 1):
+                for paramNum in range(len(self.importantParameters)):
                     print(f'{selection[i][paramNum]} * {self.coefficients[paramNum]} ({paramNum}) +', end=" ")
                     predictedY += selection[i][paramNum] * self.coefficients[paramNum]
                 predictedY += self.coefficients[len(self.coefficients) - 1]
@@ -166,6 +188,24 @@ class LinearRegression:
 
     def compare(self, basedSet, predictedScore):
         if len(basedSet) == len(predictedScore):
+            rozp = [0] * 21
+            xInGisto = []
+            xValInGisto = -1
+            for _ in range(21):
+                xInGisto.append(xValInGisto)
+                xValInGisto += 0.1
+            rss = 0
+            tss = 0
+            avarageY = 0
+            for i in range(len(self.data)):
+                avarageY += self.data[i][self.yColumnIndex]
+            avarageY /= len(self.data)
             for i in range(len(basedSet)):
                 convergence = 100 * (1 - math.fabs(basedSet[i][self.yColumnIndex] - predictedScore[i]))
+                rozp[int((predictedScore[i] - self.data[i][self.yColumnIndex]) * 10) + 10] += 1
                 print(f'Based set: {basedSet[i]}; Predicted score: {predictedScore[i]} | Convergence = {convergence}')
+                rss += (self.data[i][self.yColumnIndex] - avarageY) ** 2
+                tss += (self.data[i][self.yColumnIndex] - predictedScore[i]) ** 2
+            plt.bar(xInGisto, rozp, 0.4)
+            plt.show()
+            print(f'RSS = {rss}, TSS = {tss}, R2 = {1 - rss / tss}')
